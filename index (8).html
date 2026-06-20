@@ -1,0 +1,3319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Firebase SDKs loaded at bottom of body -->
+
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MTCQ — One page. Unlimited affiliate links.</title>
+  <meta name="description" content="MTCQ is the simplest way for affiliate creators to organize and share their links. One page. Unlimited affiliate links." />
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* ================================================================
+       RESET & BASE
+       ================================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --bg: #090909;
+      --bg-elevated: #111111;
+      --card: #151515;
+      --card-hover: #1a1a1a;
+      --border: #222222;
+      --border-light: #2a2a2a;
+      --accent: #ffffff;
+      --accent-dim: rgba(255,255,255,0.06);
+      --secondary: #888888;
+      --muted: #555555;
+      --danger: #ff4444;
+      --success: #22c55e;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --radius-xs: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.3);
+      --shadow-lg: 0 4px 20px rgba(0,0,0,0.5), 0 8px 32px rgba(0,0,0,0.4);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--accent);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: var(--font); border: none; background: none; color: inherit; }
+    input, textarea, select { font-family: var(--font); }
+    img { max-width: 100%; display: block; }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    /* ================================================================
+       UTILITY CLASSES
+       ================================================================ */
+    .hidden { display: none !important; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    /* ================================================================
+       BUTTONS
+       ================================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-xs);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all var(--transition);
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      background: #e0e0e0;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(255,255,255,0.1);
+    }
+    .btn-secondary {
+      background: var(--card);
+      color: var(--accent);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--card-hover);
+      border-color: var(--border-light);
+    }
+    .btn-ghost {
+      color: var(--secondary);
+      padding: 8px 16px;
+    }
+    .btn-ghost:hover { color: var(--accent); }
+    .btn-danger {
+      background: rgba(255,68,68,0.1);
+      color: var(--danger);
+      border: 1px solid rgba(255,68,68,0.2);
+    }
+    .btn-danger:hover {
+      background: rgba(255,68,68,0.15);
+    }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+    .btn-lg { padding: 14px 32px; font-size: 15px; }
+    .btn-full { width: 100%; }
+    /* ================================================================
+       INPUTS
+       ================================================================ */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .input-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary);
+      letter-spacing: -0.01em;
+    }
+    .input-group input,
+    .input-group textarea,
+    .input-group select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      padding: 11px 14px;
+      color: var(--accent);
+      font-size: 14px;
+      transition: border-color var(--transition);
+      outline: none;
+    }
+    .input-group input:focus,
+    .input-group textarea:focus,
+    .input-group select:focus {
+      border-color: var(--secondary);
+    }
+    .input-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .input-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    /* ================================================================
+       CARDS
+       ================================================================ */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all var(--transition);
+    }
+    .card:hover {
+      border-color: var(--border-light);
+    }
+    /* ================================================================
+       PAGE VIEWS — all views live here, toggled via JS
+       ================================================================ */
+    .view {
+      display: none;
+      min-height: 100vh;
+    }
+    .view.active {
+      display: block;
+    }
+    /* ================================================================
+       LANDING PAGE
+       ================================================================ */
+    /* Nav */
+    .landing-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 0;
+      background: rgba(9,9,9,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .landing-nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+    .nav-logo span {
+      color: var(--secondary);
+      font-weight: 400;
+      font-size: 13px;
+      margin-left: 8px;
+      letter-spacing: 0;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    /* Hero */
+    .hero {
+      padding: 180px 0 120px;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 16px 6px 8px;
+      font-size: 12px;
+      color: var(--secondary);
+      margin-bottom: 32px;
+      letter-spacing: -0.01em;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--success);
+      border-radius: 50%;
+    }
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+    .hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--secondary);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+    }
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    /* Features */
+    .features {
+      padding: 80px 0;
+    }
+    .section-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 48px;
+      line-height: 1.1;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      padding: 28px;
+    }
+    .feature-card .icon {
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-dim);
+      border-radius: var(--radius-xs);
+      margin-bottom: 16px;
+      font-size: 16px;
+      color: var(--accent);
+    }
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--secondary);
+      line-height: 1.5;
+    }
+    /* Pricing */
+    .pricing {
+      padding: 80px 0 120px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .pricing-card {
+      padding: 32px;
+      position: relative;
+    }
+    .pricing-card.featured {
+      border-color: rgba(255,255,255,0.15);
+    }
+    .pricing-card .plan-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .pricing-card .price {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 4px;
+    }
+    .pricing-card .price span {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--secondary);
+    }
+    .pricing-card .price-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .pricing-card ul {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+    .pricing-card ul li {
+      font-size: 14px;
+      color: var(--secondary);
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pricing-card ul li i {
+      color: var(--success);
+      font-size: 12px;
+      width: 16px;
+    }
+    /* Footer */
+    .landing-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    /* ================================================================
+       AUTH PAGES (Login / Register)
+       ================================================================ */
+    .auth-view {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+    }
+    .auth-card .auth-logo {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+    .auth-card .auth-subtitle {
+      font-size: 14px;
+      color: var(--secondary);
+      margin-bottom: 32px;
+    }
+    .auth-card .auth-error {
+      background: rgba(255,68,68,0.08);
+      border: 1px solid rgba(255,68,68,0.15);
+      border-radius: var(--radius-xs);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--danger);
+      margin-bottom: 16px;
+      display: none;
+    }
+    .auth-card .auth-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--secondary);
+    }
+    .auth-card .auth-footer a {
+      color: var(--accent);
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .auth-card .auth-footer a:hover {
+      text-decoration: underline;
+    }
+    /* Plan Selector */
+    .plan-selector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .plan-selector-card {
+      width: 100%;
+      max-width: 560px;
+      text-align: center;
+    }
+    .plan-selector-card h2 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    .plan-selector-card .plan-sub {
+      font-size: 14px;
+      color: var(--secondary);
+      margin-bottom: 36px;
+    }
+    .plan-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .plan-option {
+      cursor: pointer;
+      padding: 24px;
+      text-align: left;
+      transition: all var(--transition);
+    }
+    .plan-option:hover {
+      border-color: var(--border-light);
+    }
+    .plan-option.selected {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.03);
+    }
+    .plan-option .plan-opt-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .plan-option .plan-opt-price {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+    .plan-option .plan-opt-price span {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--secondary);
+    }
+    .plan-option .plan-opt-desc {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    /* ================================================================
+       DASHBOARD
+       ================================================================ */
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: var(--bg-elevated);
+      border-right: 1px solid var(--border);
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 50;
+      transition: transform 0.3s ease;
+    }
+    .sidebar-header {
+      padding: 0 20px;
+      margin-bottom: 32px;
+    }
+    .sidebar-logo {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+    .sidebar-nav {
+      flex: 1;
+      padding: 0 12px;
+    }
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-xs);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--secondary);
+      transition: all var(--transition);
+      margin-bottom: 2px;
+    }
+    .sidebar-nav a:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .sidebar-nav a.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .sidebar-nav a i {
+      width: 18px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .sidebar-footer {
+      padding: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+    }
+    .sidebar-user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--secondary);
+      overflow: hidden;
+    }
+    .sidebar-user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .sidebar-user-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .sidebar-user-name {
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-user-plan {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    /* Mobile sidebar toggle */
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 60;
+      width: 40px;
+      height: 40px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    /* Main Dashboard Content */
+    .dash-main {
+      flex: 1;
+      margin-left: 240px;
+      padding: 32px;
+      max-width: 100%;
+    }
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .dash-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    /* Dashboard Sections */
+    .dash-section {
+      display: none;
+    }
+    .dash-section.active {
+      display: block;
+    }
+    /* Profile Section */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .profile-left, .profile-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .avatar-upload {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .avatar-preview {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--secondary);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .avatar-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Theme Selector */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .theme-option {
+      cursor: pointer;
+      padding: 12px;
+      text-align: center;
+      border-radius: var(--radius-xs);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .theme-option:hover { border-color: var(--border-light); }
+    .theme-option.selected {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.03);
+    }
+    .theme-option .theme-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      border: 1px solid var(--border);
+    }
+    /* Page Editor */
+    .page-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .page-tab {
+      padding: 8px 16px;
+      border-radius: var(--radius-xs);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary);
+      background: transparent;
+      border: 1px solid transparent;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .page-tab:hover { color: var(--accent); }
+    .page-tab.active {
+      background: var(--card);
+      border-color: var(--border);
+      color: var(--accent);
+    }
+    .page-tab-add {
+      color: var(--muted);
+    }
+    /* Folder & Link Editor */
+    .folder-item {
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .folder-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .folder-header:hover {
+      background: rgba(255,255,255,0.02);
+    }
+    .folder-header .folder-chevron {
+      font-size: 12px;
+      color: var(--muted);
+      transition: transform var(--transition);
+      width: 16px;
+    }
+    .folder-header .folder-chevron.open {
+      transform: rotate(90deg);
+    }
+    .folder-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-xs);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .folder-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .folder-title {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .folder-actions {
+      display: flex;
+      gap: 4px;
+    }
+    .folder-actions button {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-xs);
+      color: var(--muted);
+      font-size: 13px;
+      transition: all var(--transition);
+    }
+    .folder-actions button:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .folder-links {
+      padding: 0 16px 16px;
+      display: none;
+    }
+    .folder-links.open { display: block; }
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      margin-bottom: 8px;
+      transition: all var(--transition);
+    }
+    .link-item:hover {
+      border-color: var(--border-light);
+    }
+    .link-thumb {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .link-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .link-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .link-info .link-name {
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .link-info .link-url {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .link-actions {
+      display: flex;
+      gap: 4px;
+    }
+    .link-actions button {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      transition: all var(--transition);
+    }
+    .link-actions button:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .add-link-btn, .add-folder-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      border-radius: var(--radius-xs);
+      border: 1px dashed var(--border);
+      width: 100%;
+      transition: all var(--transition);
+    }
+    .add-link-btn:hover, .add-folder-btn:hover {
+      border-color: var(--border-light);
+      color: var(--secondary);
+      background: rgba(255,255,255,0.02);
+    }
+    /* Preview Panel */
+    .preview-panel {
+      position: fixed;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 320px;
+      height: 600px;
+      border-radius: 28px;
+      border: 2px solid var(--border);
+      background: var(--bg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      z-index: 10;
+    }
+    .preview-inner {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      padding: 24px 16px;
+    }
+    /* Analytics */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      padding: 20px;
+    }
+    .stat-card .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .stat-card .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    .stat-card .stat-change {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .stat-card .stat-change.up { color: var(--success); }
+    .stat-card .stat-change.down { color: var(--danger); }
+    .top-links-list .top-link-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-link-item:last-child { border-bottom: none; }
+    .top-link-rank {
+      width: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-align: center;
+    }
+    .top-link-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .top-link-info .tl-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .top-link-info .tl-url {
+      font-size: 12px;
+      color: var(--muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .top-link-clicks {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+    /* Settings */
+    .settings-section {
+      max-width: 500px;
+    }
+    .settings-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .settings-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+    /* ================================================================
+       PUBLIC PROFILE PAGE
+       ================================================================ */
+    .public-profile {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 16px;
+    }
+    .profile-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 2px solid var(--border);
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--secondary);
+      overflow: hidden;
+    }
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+    .profile-bio {
+      font-size: 14px;
+      color: var(--secondary);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    /* Featured link */
+    .featured-link {
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 24px;
+    }
+    .featured-link-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .featured-link-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-1px);
+    }
+    .featured-link-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-xs);
+      background: var(--card);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .featured-link-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .featured-link-info h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .featured-link-info p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .featured-badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    /* Public folders */
+    .public-folders {
+      width: 100%;
+      max-width: 480px;
+    }
+    .public-folder {
+      margin-bottom: 12px;
+    }
+    .public-folder-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .public-folder-header:hover {
+      border-color: var(--border-light);
+      background: var(--card-hover);
+    }
+    .public-folder-chevron {
+      font-size: 11px;
+      color: var(--muted);
+      transition: transform var(--transition);
+      width: 16px;
+    }
+    .public-folder-chevron.open {
+      transform: rotate(90deg);
+    }
+    .public-folder-thumb {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .public-folder-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .public-folder-name {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .public-folder-count {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .public-folder-links {
+      padding: 8px 0 0 0;
+      display: none;
+    }
+    .public-folder-links.open { display: block; }
+    .public-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .public-link:hover {
+      border-color: var(--border-light);
+      background: var(--card-hover);
+      transform: translateY(-1px);
+    }
+    .public-link-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .public-link-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .public-link-title {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .public-link-arrow {
+      color: var(--muted);
+      font-size: 12px;
+      transition: transform var(--transition);
+    }
+    .public-link:hover .public-link-arrow {
+      transform: translateX(3px);
+    }
+    /* Public footer */
+    .public-footer {
+      margin-top: 48px;
+      text-align: center;
+    }
+    .public-footer a {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color var(--transition);
+    }
+    .public-footer a:hover { color: var(--secondary); }
+    /* ================================================================
+       THEME VARIANTS (applied to public profile)
+       ================================================================ */
+    .theme-minimal {
+      --bg: #fafafa;
+      --card: #ffffff;
+      --card-hover: #f5f5f5;
+      --border: #e5e5e5;
+      --border-light: #d5d5d5;
+      --accent: #111111;
+      --secondary: #666666;
+      --muted: #999999;
+    }
+    .theme-gaming {
+      --bg: #0a0014;
+      --card: #150028;
+      --card-hover: #1a0033;
+      --border: #2a0050;
+      --border-light: #3a0070;
+      --accent: #e0d0ff;
+      --secondary: #9070cc;
+      --muted: #604090;
+    }
+    .theme-creator {
+      --bg: #0a0f0a;
+      --card: #141f14;
+      --card-hover: #1a281a;
+      --border: #1e331e;
+      --border-light: #2a442a;
+      --accent: #d0ffd0;
+      --secondary: #70aa70;
+      --muted: #406040;
+    }
+    /* ================================================================
+       MODAL
+       ================================================================ */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transform: translateY(10px);
+      transition: transform 0.2s ease;
+    }
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+    .modal h3 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+    /* ================================================================
+       TOAST
+       ================================================================ */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--accent);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+      max-width: 320px;
+    }
+    .toast i { font-size: 14px; }
+    .toast.success i { color: var(--success); }
+    .toast.error i { color: var(--danger); }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(8px); }
+    }
+    /* ================================================================
+       RESPONSIVE
+       ================================================================ */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .sidebar-toggle {
+        display: flex;
+      }
+      .dash-main {
+        margin-left: 0;
+        padding: 24px 16px;
+        padding-top: 64px;
+      }
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+      .preview-panel {
+        display: none;
+      }
+      .plan-options {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 {
+        font-size: 42px;
+      }
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+      .theme-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    /* Sidebar overlay on mobile */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 40;
+    }
+    .sidebar-overlay.active {
+      display: block;
+    }
+    /* ================================================================
+       LOADING SPINNER
+       ================================================================ */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .page-loader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    /* ================================================================
+       EMPTY STATE
+       ================================================================ */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+    }
+    .empty-state i {
+      font-size: 36px;
+      color: var(--border-light);
+      margin-bottom: 16px;
+    }
+    .empty-state h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .empty-state p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    /* ================================================================
+       DRAG & DROP INDICATOR
+       ================================================================ */
+    .drag-over {
+      border-color: var(--accent) !important;
+      background: rgba(255,255,255,0.02) !important;
+    }
+    .dragging {
+      opacity: 0.5;
+    }
+    /* ================================================================
+       NOT FOUND PAGE
+       ================================================================ */
+    .not-found {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 24px;
+    }
+    .not-found h1 {
+      font-size: 72px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-bottom: 8px;
+      color: var(--border-light);
+    }
+    .not-found p {
+      font-size: 16px;
+      color: var(--secondary);
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <!-- ================================================================
+       TOAST CONTAINER
+       ================================================================ -->
+  <div class="toast-container" id="toastContainer"></div>
+  <!-- ================================================================
+       MODAL
+       ================================================================ -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal" id="modalContent"></div>
+  </div>
+  <!-- ================================================================
+       VIEW: LANDING PAGE
+       ================================================================ -->
+  <div class="view" id="view-landing">
+    <!-- Nav -->
+    <nav class="landing-nav">
+      <div class="container">
+        <a href="#/" class="nav-logo">MTCQ <span>.org</span></a>
+        <div class="nav-links">
+          <button class="btn btn-ghost" onclick="navigate('/login')">Log in</button>
+          <button class="btn btn-primary btn-sm" onclick="navigate('/register')">Start Creating</button>
+        </div>
+      </div>
+    </nav>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Now accepting creators
+        </div>
+        <h1>MTCQ</h1>
+        <p>Organize affiliate links. Not websites. One page, unlimited links, zero complexity.</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary btn-lg" onclick="navigate('/register')">
+            Start Creating <i class="fas fa-arrow-right" style="font-size:13px"></i>
+          </button>
+          <button class="btn btn-secondary btn-lg" onclick="navigate('/demo')">
+            View Demo
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- Features -->
+    <section class="features">
+      <div class="container">
+        <p class="section-label">Why MTCQ</p>
+        <h2 class="section-title">Everything affiliates need.<br>Nothing they don't.</h2>
+        <div class="features-grid">
+          <div class="card feature-card">
+            <div class="icon"><i class="fas fa-folder"></i></div>
+            <h3>Folders</h3>
+            <p>Organize your links into clean, expandable folders. Group by category, brand, or campaign.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="icon"><i class="fas fa-infinity"></i></div>
+            <h3>Unlimited Links</h3>
+            <p>No limits on how many affiliate links you can add. Every plan includes unlimited links.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="icon"><i class="fas fa-bolt"></i></div>
+            <h3>Fast Setup</h3>
+            <p>Go from signup to live page in under two minutes. No builders, no drag-and-drop.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="icon"><i class="fas fa-user"></i></div>
+            <h3>Creator Focus</h3>
+            <p>Built specifically for affiliate creators. Not a generic tool — every feature serves your workflow.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+      <div class="container">
+        <p class="section-label">Pricing</p>
+        <h2 class="section-title">Simple pricing.<br>No surprises.</h2>
+        <div class="pricing-grid">
+          <div class="card pricing-card">
+            <p class="plan-name">Creator</p>
+            <p class="price">$2 <span>/month</span></p>
+            <p class="price-desc">For individual creators</p>
+            <ul>
+              <li><i class="fas fa-check"></i> 1 link page</li>
+              <li><i class="fas fa-check"></i> Unlimited links</li>
+              <li><i class="fas fa-check"></i> Unlimited folders</li>
+              <li><i class="fas fa-check"></i> Theme selection</li>
+              <li><i class="fas fa-check"></i> Custom URL</li>
+              <li><i class="fas fa-check"></i> Basic analytics</li>
+            </ul>
+            <button class="btn btn-secondary btn-full" onclick="navigate('/register')">Get Started</button>
+          </div>
+          <div class="card pricing-card featured">
+            <p class="plan-name">Agency</p>
+            <p class="price">$5 <span>/month</span></p>
+            <p class="price-desc">For teams & agencies</p>
+            <ul>
+              <li><i class="fas fa-check"></i> Up to 5 link pages</li>
+              <li><i class="fas fa-check"></i> Unlimited links</li>
+              <li><i class="fas fa-check"></i> Unlimited folders</li>
+              <li><i class="fas fa-check"></i> Theme selection</li>
+              <li><i class="fas fa-check"></i> Custom URLs</li>
+              <li><i class="fas fa-check"></i> Full analytics</li>
+            </ul>
+            <button class="btn btn-primary btn-full" onclick="navigate('/register')">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="landing-footer">
+      <div class="container">
+        <p>&copy; 2026 MTCQ. One page. Unlimited affiliate links.</p>
+      </div>
+    </footer>
+  </div>
+  <!-- ================================================================
+       VIEW: LOGIN
+       ================================================================ -->
+  <div class="view auth-view" id="view-login">
+    <div class="auth-card">
+      <p class="auth-logo">MTCQ</p>
+      <p class="auth-subtitle">Sign in to your account</p>
+      <div class="auth-error" id="loginError"></div>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" required />
+        </div>
+        <div class="input-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="loginBtn">Sign In</button>
+      </form>
+      <p class="auth-footer">
+        Don't have an account? <a onclick="navigate('/register')">Sign up</a>
+      </p>
+    </div>
+  </div>
+  <!-- ================================================================
+       VIEW: REGISTER
+       ================================================================ -->
+  <div class="view auth-view" id="view-register">
+    <div class="auth-card">
+      <p class="auth-logo">MTCQ</p>
+      <p class="auth-subtitle">Create your account</p>
+      <div class="auth-error" id="registerError"></div>
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <div class="input-group">
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" placeholder="you@example.com" required />
+        </div>
+        <div class="input-group">
+          <label for="regUsername">Username</label>
+          <input type="text" id="regUsername" placeholder="yourname" required pattern="[a-zA-Z0-9_]+" title="Letters, numbers, and underscores only" />
+        </div>
+        <div class="input-group">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="registerBtn">Create Account</button>
+      </form>
+      <p class="auth-footer">
+        Already have an account? <a onclick="navigate('/login')">Sign in</a>
+      </p>
+    </div>
+  </div>
+  <!-- ================================================================
+       VIEW: PLAN SELECTION
+       ================================================================ -->
+  <div class="view plan-selector" id="view-plan">
+    <div class="plan-selector-card">
+      <h2>Choose your plan</h2>
+      <p class="plan-sub">Select the plan that fits your needs. You can change anytime.</p>
+      <div class="plan-options">
+        <div class="card plan-option" id="planCreator" onclick="selectPlan('creator')">
+          <p class="plan-opt-name">Creator</p>
+          <p class="plan-opt-price">$2 <span>/mo</span></p>
+          <p class="plan-opt-desc">1 page · Unlimited links</p>
+        </div>
+        <div class="card plan-option" id="planAgency" onclick="selectPlan('agency')">
+          <p class="plan-opt-name">Agency</p>
+          <p class="plan-opt-price">$5 <span>/mo</span></p>
+          <p class="plan-opt-desc">5 pages · Unlimited links</p>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full btn-lg" id="confirmPlanBtn" onclick="confirmPlan()" disabled>Continue</button>
+    </div>
+  </div>
+  <!-- ================================================================
+       VIEW: DASHBOARD
+       ================================================================ -->
+  <div class="view" id="view-dashboard">
+    <div class="dashboard">
+      <!-- Mobile sidebar toggle -->
+      <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <a href="#/" class="sidebar-logo">MTCQ</a>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="#" class="active" onclick="switchDashSection('pages', this)" data-section="pages">
+            <i class="fas fa-layer-group"></i> Pages
+          </a>
+          <a href="#" onclick="switchDashSection('analytics', this)" data-section="analytics">
+            <i class="fas fa-chart-bar"></i> Analytics
+          </a>
+          <a href="#" onclick="switchDashSection('settings', this)" data-section="settings">
+            <i class="fas fa-cog"></i> Settings
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="sidebar-user">
+            <div class="sidebar-user-avatar" id="sidebarAvatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="sidebar-user-info">
+              <p class="sidebar-user-name" id="sidebarUsername">User</p>
+              <p class="sidebar-user-plan" id="sidebarPlan">Creator</p>
+            </div>
+          </div>
+          <button class="btn btn-ghost btn-sm btn-full" style="margin-top:8px;justify-content:flex-start;color:var(--muted)" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i> Log out
+          </button>
+        </div>
+      </aside>
+      <!-- Main -->
+      <main class="dash-main">
+        <!-- Pages Section -->
+        <div class="dash-section active" id="dashPages">
+          <div class="dash-header">
+            <h1>Pages</h1>
+            <div style="display:flex;gap:8px;align-items:center">
+              <a id="publicPageLink" href="#" target="_blank" class="btn btn-ghost btn-sm" style="display:none">
+                <i class="fas fa-external-link-alt"></i> View Live
+              </a>
+            </div>
+          </div>
+          <!-- Page Tabs -->
+          <div class="page-tabs" id="pageTabs"></div>
+          <!-- Profile Editor -->
+          <div class="card" style="margin-bottom:24px" id="profileEditor">
+            <h3 style="font-size:15px;font-weight:600;margin-bottom:16px;letter-spacing:-0.02em">Profile</h3>
+            <div class="profile-grid">
+              <div class="profile-left">
+                <div class="avatar-upload">
+                  <div class="avatar-preview" id="dashAvatarPreview">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div>
+                    <div class="input-group" style="margin-bottom:0">
+                      <label>Avatar URL</label>
+                      <input type="url" id="avatarUrl" placeholder="https://..." onchange="updateProfile()" />
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label for="profileName">Display Name</label>
+                  <input type="text" id="profileName" placeholder="Your Name" onchange="updateProfile()" />
+                </div>
+                <div class="input-group">
+                  <label for="profileBio">Bio</label>
+                  <textarea id="profileBio" placeholder="Tell people about yourself..." onchange="updateProfile()"></textarea>
+                </div>
+              </div>
+              <div class="profile-right">
+                <div class="input-group">
+                  <label>Theme</label>
+                  <div class="theme-grid" id="themeGrid">
+                    <div class="theme-option selected" data-theme="dark" onclick="selectTheme('dark', this)">
+                      <div class="theme-dot" style="background:#090909"></div>
+                      Dark
+                    </div>
+                    <div class="theme-option" data-theme="minimal" onclick="selectTheme('minimal', this)">
+                      <div class="theme-dot" style="background:#fafafa"></div>
+                      Minimal
+                    </div>
+                    <div class="theme-option" data-theme="gaming" onclick="selectTheme('gaming', this)">
+                      <div class="theme-dot" style="background:linear-gradient(135deg,#0a0014,#2a0050)"></div>
+                      Gaming
+                    </div>
+                    <div class="theme-option" data-theme="creator" onclick="selectTheme('creator', this)">
+                      <div class="theme-dot" style="background:linear-gradient(135deg,#0a0f0a,#1e331e)"></div>
+                      Creator
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label>Featured Link URL (optional)</label>
+                  <input type="url" id="featuredLinkUrl" placeholder="https://..." onchange="updateProfile()" />
+                </div>
+                <div class="input-group">
+                  <label>Featured Link Title</label>
+                  <input type="text" id="featuredLinkTitle" placeholder="My Favorite Product" onchange="updateProfile()" />
+                </div>
+                <div class="input-group">
+                  <label>Featured Link Thumbnail</label>
+                  <input type="url" id="featuredLinkThumb" placeholder="https://..." onchange="updateProfile()" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Folders/Links Editor -->
+          <div class="card" id="foldersEditor">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <h3 style="font-size:15px;font-weight:600;letter-spacing:-0.02em">Folders & Links</h3>
+            </div>
+            <div id="foldersList"></div>
+            <button class="add-folder-btn" onclick="openFolderModal()">
+              <i class="fas fa-plus"></i> Add Folder
+            </button>
+          </div>
+        </div>
+        <!-- Analytics Section -->
+        <div class="dash-section" id="dashAnalytics">
+          <div class="dash-header">
+            <h1>Analytics</h1>
+          </div>
+          <div class="stats-grid">
+            <div class="card stat-card">
+              <p class="stat-label">Visits Today</p>
+              <p class="stat-value" id="statVisitsToday">0</p>
+            </div>
+            <div class="card stat-card">
+              <p class="stat-label">Total Clicks</p>
+              <p class="stat-value" id="statTotalClicks">0</p>
+            </div>
+            <div class="card stat-card">
+              <p class="stat-label">Total Visits</p>
+              <p class="stat-value" id="statTotalVisits">0</p>
+            </div>
+          </div>
+          <div class="card">
+            <h3 style="font-size:15px;font-weight:600;margin-bottom:16px;letter-spacing:-0.02em">Top Links</h3>
+            <div class="top-links-list" id="topLinksList">
+              <div class="empty-state">
+                <i class="fas fa-chart-line"></i>
+                <h3>No data yet</h3>
+                <p>Analytics will appear once your page gets traffic.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Settings Section -->
+        <div class="dash-section" id="dashSettings">
+          <div class="dash-header">
+            <h1>Settings</h1>
+          </div>
+          <div class="settings-section">
+            <div class="card">
+              <h3>Account</h3>
+              <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="settingsEmail" disabled />
+              </div>
+              <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="settingsUsername" disabled />
+              </div>
+              <div class="input-group">
+                <label>Plan</label>
+                <input type="text" id="settingsPlan" disabled />
+              </div>
+              <hr class="settings-divider" />
+              <h3>Change Password</h3>
+              <div class="input-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" placeholder="Min 6 characters" minlength="6" />
+              </div>
+              <button class="btn btn-secondary" onclick="changePassword()">Update Password</button>
+              <hr class="settings-divider" />
+              <h3>Danger Zone</h3>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Deleting your account is permanent and cannot be undone.</p>
+              <button class="btn btn-danger" onclick="confirmDeleteAccount()">Delete Account</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <!-- ================================================================
+       VIEW: PUBLIC PROFILE
+       ================================================================ -->
+  <div class="view" id="view-profile">
+    <div class="public-profile" id="publicProfile">
+      <!-- Rendered dynamically -->
+    </div>
+  </div>
+  <!-- ================================================================
+       VIEW: NOT FOUND
+       ================================================================ -->
+  <div class="view" id="view-404">
+    <div class="not-found">
+      <h1>404</h1>
+      <p>This page doesn't exist.</p>
+      <button class="btn btn-secondary" onclick="navigate('/')">Go Home</button>
+    </div>
+  </div>
+  <!-- ================================================================
+       VIEW: LOADING
+       ================================================================ -->
+  <div class="view" id="view-loading">
+    <div class="page-loader">
+      <div class="spinner"></div>
+    </div>
+  </div>
+  <!-- ================================================================
+       FIREBASE SDK (compat mode for single-file usage)
+       ================================================================ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script>
+    // ================================================================
+    // FIREBASE — Configuration & Initialization
+    // ================================================================
+    /**
+     * Firebase configuration placeholder.
+     * Replace these values with your actual Firebase project credentials
+     * before deploying. The app will initialize but auth/db calls will
+     * fail until valid keys are provided.
+     */
+const firebaseConfig = {
+  apiKey: "AIzaSyA_w-jtXGS9SWrZsTPjElq-LaeaZw9DJfM",
+  authDomain: "mtcq-org.firebaseapp.com",
+  projectId: "mtcq-org",
+  storageBucket: "mtcq-org.firebasestorage.app",
+  messagingSenderId: "958700513195",
+  appId: "1:958700513195:web:48a7ca72ea4a17ca5054ee",
+  measurementId: "G-60RMY3T4NN"
+};
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    // ================================================================
+    // STATE — Application State Management
+    // ================================================================
+    /** Global application state */
+    const state = {
+      user: null,           // Firebase auth user object
+      userData: null,        // Firestore user document
+      currentPage: null,     // Currently selected page ID in dashboard
+      selectedPlan: null,    // Plan chosen during registration
+      pages: [],             // User's link pages
+      currentPageData: null  // Data for the currently active page
+    };
+    // ================================================================
+    // ROUTING — Hash-based SPA Router
+    // ================================================================
+    /**
+     * Navigate to a new route by updating the hash.
+     * @param {string} path - The route path (e.g., '/dashboard', '/login')
+     */
+    function navigate(path) {
+      window.location.hash = '#' + path;
+    }
+    /**
+     * Core router — reads hash and shows the correct view.
+     * Handles auth guards: dashboard requires login,
+     * login/register redirect if already authenticated.
+     */
+    function router() {
+      const hash = window.location.hash.slice(1) || '/';
+      const path = hash.startsWith('/') ? hash : '/' + hash;
+      // Hide all views
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      // Close mobile sidebar on navigation
+      closeSidebar();
+      // Determine which view to show
+      if (path === '/' || path === '') {
+        if (state.user && state.userData) {
+          showView('dashboard');
+          loadDashboard();
+        } else {
+          showView('landing');
+        }
+      } else if (path === '/login') {
+        if (state.user && state.userData) {
+          navigate('/');
+          return;
+        }
+        showView('login');
+      } else if (path === '/register') {
+        if (state.user && state.userData) {
+          navigate('/');
+          return;
+        }
+        showView('register');
+      } else if (path === '/plan') {
+        showView('plan');
+      } else if (path === '/dashboard') {
+        if (!state.user) {
+          navigate('/login');
+          return;
+        }
+        showView('dashboard');
+        loadDashboard();
+      } else if (path === '/demo') {
+        renderDemoProfile();
+        showView('profile');
+      } else {
+        // Check if it's a public profile URL (e.g., /username)
+        const username = path.slice(1);
+        if (username && !username.includes('/')) {
+          loadPublicProfile(username);
+        } else {
+          showView('404');
+        }
+      }
+    }
+    /**
+     * Show a specific view by ID.
+     * @param {string} viewId - The view identifier (e.g., 'landing', 'login')
+     */
+    function showView(viewId) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      const el = document.getElementById('view-' + viewId);
+      if (el) el.classList.add('active');
+    }
+    // Listen for hash changes
+    window.addEventListener('hashchange', router);
+    // ================================================================
+    // AUTH — Authentication Handlers
+    // ================================================================
+    /**
+     * Handle login form submission.
+     * Authenticates with Firebase email/password, then loads user data.
+     */
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('loginBtn');
+      const errorEl = document.getElementById('loginError');
+      errorEl.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        // Auth state listener will handle the rest
+      } catch (err) {
+        errorEl.textContent = getAuthErrorMessage(err.code);
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    }
+    /**
+     * Handle registration form submission.
+     * Creates a Firebase auth user, checks username uniqueness,
+     * then redirects to plan selection.
+     */
+    async function handleRegister(e) {
+      e.preventDefault();
+      const email = document.getElementById('regEmail').value;
+      const username = document.getElementById('regUsername').value.toLowerCase().trim();
+      const password = document.getElementById('regPassword').value;
+      const btn = document.getElementById('registerBtn');
+      const errorEl = document.getElementById('registerError');
+      errorEl.style.display = 'none';
+      // Validate username format
+      if (!/^[a-z0-9_]+$/.test(username)) {
+        errorEl.textContent = 'Username can only contain lowercase letters, numbers, and underscores.';
+        errorEl.style.display = 'block';
+        return;
+      }
+      if (username.length < 3) {
+        errorEl.textContent = 'Username must be at least 3 characters.';
+        errorEl.style.display = 'block';
+        return;
+      }
+      // Reserved route names that cannot be used as usernames
+      const reserved = ['login', 'register', 'dashboard', 'plan', 'demo', 'admin', 'settings', 'api', 'app'];
+      if (reserved.includes(username)) {
+        errorEl.textContent = 'This username is reserved. Please choose another.';
+        errorEl.style.display = 'block';
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'Creating account...';
+      try {
+        // Check if username is already taken
+        const existing = await db.collection('usernames').doc(username).get();
+        if (existing.exists) {
+          errorEl.textContent = 'This username is already taken.';
+          errorEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Create Account';
+          return;
+        }
+        // Create the Firebase auth user
+        const cred = await auth.createUserWithEmailAndPassword(email, password);
+        // Store temporary registration data — plan selection comes next
+        state._pendingRegistration = {
+          uid: cred.user.uid,
+          email,
+          username
+        };
+        navigate('/plan');
+      } catch (err) {
+        errorEl.textContent = getAuthErrorMessage(err.code);
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+      }
+    }
+    /**
+     * Plan selection during registration flow.
+     * @param {string} plan - Either 'creator' or 'agency'
+     */
+    function selectPlan(plan) {
+      state.selectedPlan = plan;
+      document.getElementById('planCreator').classList.toggle('selected', plan === 'creator');
+      document.getElementById('planAgency').classList.toggle('selected', plan === 'agency');
+      document.getElementById('confirmPlanBtn').disabled = false;
+    }
+    /**
+     * Confirm plan selection and create user document in Firestore.
+     * Creates the username mapping, user profile, and first page.
+     */
+    async function confirmPlan() {
+      if (!state.selectedPlan) return;
+      const btn = document.getElementById('confirmPlanBtn');
+      btn.disabled = true;
+      btn.textContent = 'Setting up...';
+      const reg = state._pendingRegistration;
+      if (!reg) {
+        toast('Registration data lost. Please register again.', 'error');
+        navigate('/register');
+        return;
+      }
+      try {
+        const batch = db.batch();
+        // Reserve username
+        batch.set(db.collection('usernames').doc(reg.username), {
+          uid: reg.uid
+        });
+        // Create user document
+        batch.set(db.collection('users').doc(reg.uid), {
+          email: reg.email,
+          username: reg.username,
+          plan: state.selectedPlan,
+          displayName: reg.username,
+          bio: '',
+          avatarUrl: '',
+          theme: 'dark',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        // Create first page
+        const pageRef = db.collection('users').doc(reg.uid).collection('pages').doc();
+        batch.set(pageRef, {
+          slug: reg.username,
+          title: 'My Links',
+          folders: [],
+          featuredLink: null,
+          analytics: {
+            totalVisits: 0,
+            totalClicks: 0,
+            visitsToday: 0,
+            lastVisitDate: null,
+            linkClicks: {}
+          },
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        await batch.commit();
+        state._pendingRegistration = null;
+        state.selectedPlan = null;
+        toast('Account created successfully!', 'success');
+        // Auth state listener will redirect to dashboard
+        // Trigger a re-check by navigating
+        navigate('/');
+      } catch (err) {
+        console.error('Plan confirmation error:', err);
+        toast('Setup failed. Please try again.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Continue';
+      }
+    }
+    /**
+     * Log the user out and redirect to landing page.
+     */
+    async function handleLogout() {
+      await auth.signOut();
+      state.user = null;
+      state.userData = null;
+      state.pages = [];
+      state.currentPage = null;
+      navigate('/');
+    }
+    /**
+     * Firebase auth state observer.
+     * Loads user data from Firestore when auth state changes.
+     */
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        state.user = user;
+        try {
+          const doc = await db.collection('users').doc(user.uid).get();
+          if (doc.exists) {
+            state.userData = { id: doc.id, ...doc.data() };
+            router();
+          } else {
+            // User exists in auth but no Firestore doc — probably mid-registration
+            if (window.location.hash !== '#/plan') {
+              // If there's pending registration, go to plan selection
+              if (state._pendingRegistration) {
+                navigate('/plan');
+              }
+            }
+            router();
+          }
+        } catch (err) {
+          console.error('Error loading user data:', err);
+          router();
+        }
+      } else {
+        state.user = null;
+        state.userData = null;
+        router();
+      }
+    });
+    /**
+     * Convert Firebase auth error codes to user-friendly messages.
+     * @param {string} code - Firebase error code
+     * @returns {string} Human-readable error message
+     */
+    function getAuthErrorMessage(code) {
+      const messages = {
+        'auth/email-already-in-use': 'An account with this email already exists.',
+        'auth/invalid-email': 'Please enter a valid email address.',
+        'auth/user-not-found': 'No account found with this email.',
+        'auth/wrong-password': 'Incorrect password.',
+        'auth/weak-password': 'Password must be at least 6 characters.',
+        'auth/too-many-requests': 'Too many attempts. Please try again later.',
+        'auth/invalid-credential': 'Invalid email or password.'
+      };
+      return messages[code] || 'An error occurred. Please try again.';
+    }
+    // ================================================================
+    // DATABASE — Firestore Operations
+    // ================================================================
+    /**
+     * Load all user pages from Firestore.
+     * @returns {Promise<Array>} Array of page objects
+     */
+    async function loadUserPages() {
+      if (!state.user) return [];
+      try {
+        const snap = await db.collection('users').doc(state.user.uid)
+          .collection('pages').orderBy('createdAt', 'asc').get();
+        state.pages = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        return state.pages;
+      } catch (err) {
+        console.error('Error loading pages:', err);
+        return [];
+      }
+    }
+    /**
+     * Save a page document back to Firestore.
+     * @param {Object} pageData - The page data to save
+     */
+    async function savePage(pageData) {
+      if (!state.user || !pageData.id) return;
+      try {
+        const { id, ...data } = pageData;
+        await db.collection('users').doc(state.user.uid)
+          .collection('pages').doc(id).update(data);
+      } catch (err) {
+        console.error('Error saving page:', err);
+        toast('Failed to save. Please try again.', 'error');
+      }
+    }
+    /**
+     * Create a new page in Firestore.
+     * Enforces plan limits (1 for Creator, 5 for Agency).
+     */
+    async function createNewPage() {
+      if (!state.user || !state.userData) return;
+      const maxPages = state.userData.plan === 'agency' ? 5 : 1;
+      if (state.pages.length >= maxPages) {
+        toast(`Your ${state.userData.plan} plan allows ${maxPages} page(s). Upgrade to add more.`, 'error');
+        return;
+      }
+      const slug = state.userData.username + '-' + (state.pages.length + 1);
+      try {
+        await db.collection('users').doc(state.user.uid).collection('pages').add({
+          slug: slug,
+          title: 'Page ' + (state.pages.length + 1),
+          folders: [],
+          featuredLink: null,
+          analytics: {
+            totalVisits: 0,
+            totalClicks: 0,
+            visitsToday: 0,
+            lastVisitDate: null,
+            linkClicks: {}
+          },
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        toast('Page created!', 'success');
+        await loadUserPages();
+        renderPageTabs();
+      } catch (err) {
+        console.error('Error creating page:', err);
+        toast('Failed to create page.', 'error');
+      }
+    }
+    /**
+     * Update user profile data in Firestore.
+     * Called on input change events in the profile editor.
+     */
+    async function updateProfile() {
+      if (!state.user) return;
+      const data = {
+        displayName: document.getElementById('profileName').value,
+        bio: document.getElementById('profileBio').value,
+        avatarUrl: document.getElementById('avatarUrl').value
+      };
+      try {
+        await db.collection('users').doc(state.user.uid).update(data);
+        state.userData = { ...state.userData, ...data };
+        updateSidebarUser();
+        updateAvatarPreviews();
+        // Also update featured link on current page if set
+        if (state.currentPageData) {
+          const featuredUrl = document.getElementById('featuredLinkUrl').value;
+          const featuredTitle = document.getElementById('featuredLinkTitle').value;
+          const featuredThumb = document.getElementById('featuredLinkThumb').value;
+          if (featuredUrl || featuredTitle) {
+            state.currentPageData.featuredLink = {
+              url: featuredUrl,
+              title: featuredTitle,
+              thumbnail: featuredThumb
+            };
+          } else {
+            state.currentPageData.featuredLink = null;
+          }
+          await savePage(state.currentPageData);
+        }
+        renderPreview();
+      } catch (err) {
+        console.error('Error updating profile:', err);
+      }
+    }
+    /**
+     * Select a theme for the public profile.
+     * @param {string} theme - Theme name ('dark', 'minimal', 'gaming', 'creator')
+     * @param {HTMLElement} el - The clicked theme option element
+     */
+    async function selectTheme(theme, el) {
+      document.querySelectorAll('.theme-option').forEach(t => t.classList.remove('selected'));
+      el.classList.add('selected');
+      if (state.userData) {
+        state.userData.theme = theme;
+        try {
+          await db.collection('users').doc(state.user.uid).update({ theme });
+          renderPreview();
+        } catch (err) {
+          console.error('Error saving theme:', err);
+        }
+      }
+    }
+    // ================================================================
+    // UI — Dashboard Rendering
+    // ================================================================
+    /**
+     * Load and render the dashboard view.
+     * Fetches user data and pages, populates UI elements.
+     */
+    async function loadDashboard() {
+      if (!state.user || !state.userData) return;
+      updateSidebarUser();
+      // Populate settings
+      document.getElementById('settingsEmail').value = state.userData.email || '';
+      document.getElementById('settingsUsername').value = state.userData.username || '';
+      document.getElementById('settingsPlan').value = (state.userData.plan || 'creator').charAt(0).toUpperCase() + (state.userData.plan || 'creator').slice(1);
+      // Load pages
+      await loadUserPages();
+      renderPageTabs();
+      if (state.pages.length > 0) {
+        selectPageTab(state.pages[0].id);
+      }
+    }
+    /**
+     * Update sidebar user display with current user data.
+     */
+    function updateSidebarUser() {
+      if (!state.userData) return;
+      const avatarEl = document.getElementById('sidebarAvatar');
+      if (state.userData.avatarUrl) {
+        avatarEl.innerHTML = `<img src="${escapeHtml(state.userData.avatarUrl)}" alt="Avatar" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-user\\'></i>'" />`;
+      } else {
+        avatarEl.innerHTML = '<i class="fas fa-user"></i>';
+      }
+      document.getElementById('sidebarUsername').textContent = state.userData.displayName || state.userData.username;
+      document.getElementById('sidebarPlan').textContent = state.userData.plan || 'Creator';
+    }
+    /**
+     * Update avatar preview elements with current avatar URL.
+     */
+    function updateAvatarPreviews() {
+      const avatarUrl = state.userData?.avatarUrl;
+      const previewEl = document.getElementById('dashAvatarPreview');
+      if (avatarUrl) {
+        previewEl.innerHTML = `<img src="${escapeHtml(avatarUrl)}" alt="Avatar" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-user\\'></i>'" />`;
+      } else {
+        previewEl.innerHTML = '<i class="fas fa-user"></i>';
+      }
+    }
+    /**
+     * Render page tabs in the dashboard.
+     * Shows tab for each page plus an "Add" tab if plan allows.
+     */
+    function renderPageTabs() {
+      const container = document.getElementById('pageTabs');
+      const maxPages = state.userData?.plan === 'agency' ? 5 : 1;
+      let html = '';
+      state.pages.forEach((page, i) => {
+        const isActive = state.currentPage === page.id;
+        html += `<button class="page-tab ${isActive ? 'active' : ''}" onclick="selectPageTab('${page.id}')">${escapeHtml(page.title || 'Page ' + (i + 1))}</button>`;
+      });
+      if (state.pages.length < maxPages) {
+        html += `<button class="page-tab page-tab-add" onclick="createNewPage()"><i class="fas fa-plus"></i></button>`;
+      }
+      container.innerHTML = html;
+    }
+    /**
+     * Select a page tab and load its data into the editor.
+     * @param {string} pageId - The Firestore document ID of the page
+     */
+    function selectPageTab(pageId) {
+      state.currentPage = pageId;
+      state.currentPageData = state.pages.find(p => p.id === pageId);
+      if (!state.currentPageData) return;
+      // Update tab active state
+      document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+      const tabs = document.querySelectorAll('.page-tab');
+      const idx = state.pages.findIndex(p => p.id === pageId);
+      if (tabs[idx]) tabs[idx].classList.add('active');
+      // Populate profile fields from user data
+      document.getElementById('profileName').value = state.userData?.displayName || '';
+      document.getElementById('profileBio').value = state.userData?.bio || '';
+      document.getElementById('avatarUrl').value = state.userData?.avatarUrl || '';
+      // Populate featured link from page data
+      const fl = state.currentPageData.featuredLink;
+      document.getElementById('featuredLinkUrl').value = fl?.url || '';
+      document.getElementById('featuredLinkTitle').value = fl?.title || '';
+      document.getElementById('featuredLinkThumb').value = fl?.thumbnail || '';
+      // Set theme
+      const theme = state.userData?.theme || 'dark';
+      document.querySelectorAll('.theme-option').forEach(t => {
+        t.classList.toggle('selected', t.dataset.theme === theme);
+      });
+      updateAvatarPreviews();
+      // Update live page link
+      const liveLink = document.getElementById('publicPageLink');
+      if (state.currentPageData.slug) {
+        liveLink.href = '#/' + state.currentPageData.slug;
+        liveLink.style.display = 'inline-flex';
+      }
+      // Render folders
+      renderFolders();
+      renderPreview();
+      loadAnalytics();
+    }
+    /**
+     * Switch between dashboard sections (pages, analytics, settings).
+     * @param {string} section - Section identifier
+     * @param {HTMLElement} navEl - The clicked nav element
+     */
+    function switchDashSection(section, navEl) {
+      // Update nav active state
+      document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+      if (navEl) navEl.classList.add('active');
+      // Show/hide sections
+      document.querySelectorAll('.dash-section').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('dash' + section.charAt(0).toUpperCase() + section.slice(1));
+      if (target) target.classList.add('active');
+      // Close sidebar on mobile
+      closeSidebar();
+    }
+    // ================================================================
+    // UI — Folder & Link Management
+    // ================================================================
+    /**
+     * Render all folders and their links for the current page.
+     */
+    function renderFolders() {
+      if (!state.currentPageData) return;
+      const folders = state.currentPageData.folders || [];
+      const container = document.getElementById('foldersList');
+      if (folders.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-folder-open"></i>
+            <h3>No folders yet</h3>
+            <p>Add your first folder to start organizing links.</p>
+          </div>
+        `;
+        return;
+      }
+      let html = '';
+      folders.forEach((folder, fi) => {
+        const links = folder.links || [];
+        html += `
+          <div class="card folder-item" draggable="true"
+               ondragstart="handleFolderDragStart(event, ${fi})"
+               ondragover="handleFolderDragOver(event)"
+               ondragleave="handleFolderDragLeave(event)"
+               ondrop="handleFolderDrop(event, ${fi})"
+               ondragend="handleDragEnd(event)">
+            <div class="folder-header" onclick="toggleFolder(this)">
+              <i class="fas fa-chevron-right folder-chevron"></i>
+              <div class="folder-thumb">
+                ${folder.thumbnail ? `<img src="${escapeHtml(folder.thumbnail)}" alt="" onerror="this.style.display='none'" />` : '<i class="fas fa-folder"></i>'}
+              </div>
+              <span class="folder-title">${escapeHtml(folder.title)}</span>
+              <span style="font-size:12px;color:var(--muted)">${links.length} link${links.length !== 1 ? 's' : ''}</span>
+              <div class="folder-actions" onclick="event.stopPropagation()">
+                <button title="Edit" onclick="openEditFolderModal(${fi})"><i class="fas fa-pen"></i></button>
+                <button title="Delete" onclick="deleteFolder(${fi})"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+            <div class="folder-links" id="folderLinks-${fi}">
+              ${links.map((link, li) => `
+                <div class="link-item" draggable="true"
+                     ondragstart="handleLinkDragStart(event, ${fi}, ${li})"
+                     ondragover="handleLinkDragOver(event)"
+                     ondragleave="handleLinkDragLeave(event)"
+                     ondrop="handleLinkDrop(event, ${fi}, ${li})"
+                     ondragend="handleDragEnd(event)">
+                  <div class="link-thumb">
+                    ${link.thumbnail ? `<img src="${escapeHtml(link.thumbnail)}" alt="" onerror="this.style.display='none'" />` : '<i class="fas fa-link"></i>'}
+                  </div>
+                  <div class="link-info">
+                    <p class="link-name">${escapeHtml(link.title)}</p>
+                    <p class="link-url">${escapeHtml(link.url)}</p>
+                  </div>
+                  <div class="link-actions">
+                    <button title="Edit" onclick="openEditLinkModal(${fi}, ${li})"><i class="fas fa-pen"></i></button>
+                    <button title="Delete" onclick="deleteLink(${fi}, ${li})"><i class="fas fa-trash"></i></button>
+                  </div>
+                </div>
+              `).join('')}
+              <button class="add-link-btn" onclick="openLinkModal(${fi})">
+                <i class="fas fa-plus"></i> Add Link
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+    /**
+     * Toggle folder expand/collapse in the editor.
+     * @param {HTMLElement} headerEl - The folder header element
+     */
+    function toggleFolder(headerEl) {
+      const chevron = headerEl.querySelector('.folder-chevron');
+      const linksContainer = headerEl.nextElementSibling;
+      chevron.classList.toggle('open');
+      linksContainer.classList.toggle('open');
+    }
+    /**
+     * Open modal to add a new folder.
+     */
+    function openFolderModal() {
+      openModal('Add Folder', `
+        <div class="input-group">
+          <label>Folder Title</label>
+          <input type="text" id="modalFolderTitle" placeholder="e.g., Gaming Setup" required />
+        </div>
+        <div class="input-group">
+          <label>Thumbnail URL (optional)</label>
+          <input type="url" id="modalFolderThumb" placeholder="https://..." />
+        </div>
+      `, async () => {
+        const title = document.getElementById('modalFolderTitle').value.trim();
+        if (!title) return;
+        const thumb = document.getElementById('modalFolderThumb').value.trim();
+        state.currentPageData.folders = state.currentPageData.folders || [];
+        state.currentPageData.folders.push({
+          title,
+          thumbnail: thumb,
+          links: []
+        });
+        await savePage(state.currentPageData);
+        renderFolders();
+        renderPreview();
+        closeModalFn();
+        toast('Folder added!', 'success');
+      });
+    }
+    /**
+     * Open modal to edit an existing folder.
+     * @param {number} folderIndex - Index of the folder in the folders array
+     */
+    function openEditFolderModal(folderIndex) {
+      const folder = state.currentPageData.folders[folderIndex];
+      if (!folder) return;
+      openModal('Edit Folder', `
+        <div class="input-group">
+          <label>Folder Title</label>
+          <input type="text" id="modalFolderTitle" value="${escapeHtml(folder.title)}" required />
+        </div>
+        <div class="input-group">
+          <label>Thumbnail URL</label>
+          <input type="url" id="modalFolderThumb" value="${escapeHtml(folder.thumbnail || '')}" placeholder="https://..." />
+        </div>
+      `, async () => {
+        const title = document.getElementById('modalFolderTitle').value.trim();
+        if (!title) return;
+        state.currentPageData.folders[folderIndex].title = title;
+        state.currentPageData.folders[folderIndex].thumbnail = document.getElementById('modalFolderThumb').value.trim();
+        await savePage(state.currentPageData);
+        renderFolders();
+        renderPreview();
+        closeModalFn();
+        toast('Folder updated!', 'success');
+      });
+    }
+    /**
+     * Delete a folder after confirmation.
+     * @param {number} folderIndex - Index of the folder to delete
+     */
+    async function deleteFolder(folderIndex) {
+      if (!confirm('Delete this folder and all its links?')) return;
+      state.currentPageData.folders.splice(folderIndex, 1);
+      await savePage(state.currentPageData);
+      renderFolders();
+      renderPreview();
+      toast('Folder deleted.', 'success');
+    }
+    /**
+     * Open modal to add a new link inside a folder.
+     * @param {number} folderIndex - The folder to add the link to
+     */
+    function openLinkModal(folderIndex) {
+      openModal('Add Link', `
+        <div class="input-group">
+          <label>Link Title</label>
+          <input type="text" id="modalLinkTitle" placeholder="e.g., Logitech G Pro" required />
+        </div>
+        <div class="input-group">
+          <label>URL</label>
+          <input type="url" id="modalLinkUrl" placeholder="https://..." required />
+        </div>
+        <div class="input-group">
+          <label>Thumbnail URL (optional)</label>
+          <input type="url" id="modalLinkThumb" placeholder="https://..." />
+        </div>
+      `, async () => {
+        const title = document.getElementById('modalLinkTitle').value.trim();
+        const url = document.getElementById('modalLinkUrl').value.trim();
+        if (!title || !url) return;
+        const thumb = document.getElementById('modalLinkThumb').value.trim();
+        state.currentPageData.folders[folderIndex].links = state.currentPageData.folders[folderIndex].links || [];
+        state.currentPageData.folders[folderIndex].links.push({
+          title,
+          url,
+          thumbnail: thumb,
+          id: generateId()
+        });
+        await savePage(state.currentPageData);
+        renderFolders();
+        renderPreview();
+        closeModalFn();
+        toast('Link added!', 'success');
+      });
+    }
+    /**
+     * Open modal to edit an existing link.
+     * @param {number} folderIndex - Folder index
+     * @param {number} linkIndex - Link index within the folder
+     */
+    function openEditLinkModal(folderIndex, linkIndex) {
+      const link = state.currentPageData.folders[folderIndex]?.links[linkIndex];
+      if (!link) return;
+      openModal('Edit Link', `
+        <div class="input-group">
+          <label>Link Title</label>
+          <input type="text" id="modalLinkTitle" value="${escapeHtml(link.title)}" required />
+        </div>
+        <div class="input-group">
+          <label>URL</label>
+          <input type="url" id="modalLinkUrl" value="${escapeHtml(link.url)}" required />
+        </div>
+        <div class="input-group">
+          <label>Thumbnail URL</label>
+          <input type="url" id="modalLinkThumb" value="${escapeHtml(link.thumbnail || '')}" placeholder="https://..." />
+        </div>
+      `, async () => {
+        const title = document.getElementById('modalLinkTitle').value.trim();
+        const url = document.getElementById('modalLinkUrl').value.trim();
+        if (!title || !url) return;
+        state.currentPageData.folders[folderIndex].links[linkIndex].title = title;
+        state.currentPageData.folders[folderIndex].links[linkIndex].url = url;
+        state.currentPageData.folders[folderIndex].links[linkIndex].thumbnail = document.getElementById('modalLinkThumb').value.trim();
+        await savePage(state.currentPageData);
+        renderFolders();
+        renderPreview();
+        closeModalFn();
+        toast('Link updated!', 'success');
+      });
+    }
+    /**
+     * Delete a link from a folder.
+     * @param {number} folderIndex - Folder index
+     * @param {number} linkIndex - Link index
+     */
+    async function deleteLink(folderIndex, linkIndex) {
+      if (!confirm('Delete this link?')) return;
+      state.currentPageData.folders[folderIndex].links.splice(linkIndex, 1);
+      await savePage(state.currentPageData);
+      renderFolders();
+      renderPreview();
+      toast('Link deleted.', 'success');
+    }
+    // ================================================================
+    // UI — Drag & Drop Reordering
+    // ================================================================
+    let dragData = { type: null, from: null, fromLink: null };
+    function handleFolderDragStart(e, index) {
+      dragData = { type: 'folder', from: index };
+      e.currentTarget.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+    function handleFolderDragOver(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+    function handleFolderDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+    async function handleFolderDrop(e, toIndex) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+      if (dragData.type === 'folder' && dragData.from !== toIndex) {
+        const folders = state.currentPageData.folders;
+        const [moved] = folders.splice(dragData.from, 1);
+        folders.splice(toIndex, 0, moved);
+        await savePage(state.currentPageData);
+        renderFolders();
+        renderPreview();
+      }
+    }
+    function handleLinkDragStart(e, folderIndex, linkIndex) {
+      dragData = { type: 'link', from: folderIndex, fromLink: linkIndex };
+      e.currentTarget.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.stopPropagation();
+    }
+    function handleLinkDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.classList.add('drag-over');
+    }
+    function handleLinkDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+    async function handleLinkDrop(e, folderIndex, linkIndex) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.classList.remove('drag-over');
+      if (dragData.type === 'link' && dragData.from === folderIndex && dragData.fromLink !== linkIndex) {
+        const links = state.currentPageData.folders[folderIndex].links;
+        const [moved] = links.splice(dragData.fromLink, 1);
+        links.splice(linkIndex, 0, moved);
+        await savePage(state.currentPageData);
+        renderFolders();
+        renderPreview();
+      }
+    }
+    function handleDragEnd(e) {
+      e.currentTarget.classList.remove('dragging');
+      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    }
+    // ================================================================
+    // UI — Preview Panel
+    // ================================================================
+    /**
+     * Render the live preview panel in the dashboard.
+     * Shows a miniature version of the public profile.
+     */
+    function renderPreview() {
+      const panel = document.querySelector('.preview-panel');
+      if (panel) panel.remove();
+      // Only show preview on desktop when on pages section
+      if (window.innerWidth < 768 || !state.currentPageData || !state.userData) return;
+      const theme = state.userData.theme || 'dark';
+      const themeClass = theme !== 'dark' ? `theme-${theme}` : '';
+      const folders = state.currentPageData.folders || [];
+      const fl = state.currentPageData.featuredLink;
+      let foldersHtml = folders.map((f, fi) => `
+        <div class="public-folder" style="margin-bottom:8px">
+          <div class="public-folder-header" onclick="this.querySelector('.public-folder-chevron').classList.toggle('open'); this.nextElementSibling.classList.toggle('open')" style="padding:10px 12px">
+            <i class="fas fa-chevron-right public-folder-chevron" style="font-size:9px"></i>
+            <div class="public-folder-thumb" style="width:24px;height:24px;border-radius:6px">
+              ${f.thumbnail ? `<img src="${escapeHtml(f.thumbnail)}" alt="" onerror="this.style.display='none'" />` : '<i class="fas fa-folder" style="font-size:10px"></i>'}
+            </div>
+            <span class="public-folder-name" style="font-size:12px">${escapeHtml(f.title)}</span>
+          </div>
+          <div class="public-folder-links">
+            ${(f.links || []).map(l => `
+              <div class="public-link" style="padding:8px 10px;margin-bottom:4px">
+                <div class="public-link-thumb" style="width:28px;height:28px;border-radius:6px">
+                  ${l.thumbnail ? `<img src="${escapeHtml(l.thumbnail)}" alt="" onerror="this.style.display='none'" />` : '<i class="fas fa-link" style="font-size:10px"></i>'}
+                </div>
+                <span class="public-link-title" style="font-size:11px">${escapeHtml(l.title)}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+      const previewHtml = `
+        <div class="preview-panel">
+          <div class="preview-inner ${themeClass}" style="text-align:center">
+            <div style="margin-bottom:20px">
+              <div class="profile-avatar" style="width:48px;height:48px;font-size:18px;margin:0 auto 10px">
+                ${state.userData.avatarUrl ? `<img src="${escapeHtml(state.userData.avatarUrl)}" alt="" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-user\\'></i>'" />` : '<i class="fas fa-user"></i>'}
+              </div>
+              <p style="font-size:14px;font-weight:600;letter-spacing:-0.02em">${escapeHtml(state.userData.displayName || state.userData.username)}</p>
+              <p style="font-size:11px;color:var(--secondary);margin-top:2px">${escapeHtml(state.userData.bio || '')}</p>
+            </div>
+            ${fl && fl.url ? `
+              <div style="margin-bottom:16px;text-align:left">
+                <p class="featured-badge" style="font-size:9px;margin-bottom:4px">Featured</p>
+                <div class="featured-link-card" style="padding:10px" onclick="window.open('${escapeHtml(fl.url)}', '_blank')">
+                  <div class="featured-link-thumb" style="width:32px;height:32px">
+                    ${fl.thumbnail ? `<img src="${escapeHtml(fl.thumbnail)}" alt="" onerror="this.style.display='none'" />` : '<i class="fas fa-star" style="font-size:12px;color:var(--muted)"></i>'}
+                  </div>
+                  <div>
+                    <p style="font-size:12px;font-weight:600">${escapeHtml(fl.title || 'Featured')}</p>
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+            <div style="text-align:left">${foldersHtml}</div>
+          </div>
+        </div>
+      `;
+      // Insert before dash-main closes
+      document.querySelector('.dash-main').insertAdjacentHTML('beforeend', previewHtml);
+    }
+    // Re-render preview on resize
+    window.addEventListener('resize', () => {
+      if (state.currentPageData) renderPreview();
+    });
+    // ================================================================
+    // ANALYTICS — Tracking & Display
+    // ================================================================
+    /**
+     * Load analytics data for the current page and render stats.
+     */
+    function loadAnalytics() {
+      if (!state.currentPageData) return;
+      const analytics = state.currentPageData.analytics || {};
+      document.getElementById('statVisitsToday').textContent = analytics.visitsToday || 0;
+      document.getElementById('statTotalClicks').textContent = analytics.totalClicks || 0;
+      document.getElementById('statTotalVisits').textContent = analytics.totalVisits || 0;
+      // Render top links from click data
+      const linkClicks = analytics.linkClicks || {};
+      const topLinksContainer = document.getElementById('topLinksList');
+      const entries = Object.entries(linkClicks).sort((a, b) => b[1] - a[1]).slice(0, 10);
+      if (entries.length === 0) {
+        topLinksContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-chart-line"></i>
+            <h3>No data yet</h3>
+            <p>Analytics will appear once your page gets traffic.</p>
+          </div>
+        `;
+        return;
+      }
+      // Find link titles from folders
+      const allLinks = {};
+      (state.currentPageData.folders || []).forEach(f => {
+        (f.links || []).forEach(l => {
+          allLinks[l.id || l.url] = l;
+        });
+      });
+      topLinksContainer.innerHTML = entries.map(([id, clicks], i) => {
+        const link = allLinks[id] || { title: id, url: '' };
+        return `
+          <div class="top-link-item">
+            <span class="top-link-rank">${i + 1}</span>
+            <div class="top-link-info">
+              <p class="tl-name">${escapeHtml(link.title)}</p>
+              <p class="tl-url">${escapeHtml(link.url)}</p>
+            </div>
+            <span class="top-link-clicks">${clicks}</span>
+          </div>
+        `;
+      }).join('');
+    }
+    /**
+     * Record a page visit for analytics.
+     * @param {string} userId - The page owner's user ID
+     * @param {string} pageId - The page document ID
+     */
+    async function recordVisit(userId, pageId) {
+      try {
+        const pageRef = db.collection('users').doc(userId).collection('pages').doc(pageId);
+        const today = new Date().toISOString().split('T')[0];
+        await pageRef.update({
+          'analytics.totalVisits': firebase.firestore.FieldValue.increment(1),
+          'analytics.visitsToday': firebase.firestore.FieldValue.increment(1),
+          'analytics.lastVisitDate': today
+        });
+      } catch (err) {
+        console.error('Error recording visit:', err);
+      }
+    }
+    /**
+     * Record a link click for analytics.
+     * @param {string} userId - The page owner's user ID
+     * @param {string} pageId - The page document ID
+     * @param {string} linkId - The link identifier
+     */
+    async function recordClick(userId, pageId, linkId) {
+      try {
+        const pageRef = db.collection('users').doc(userId).collection('pages').doc(pageId);
+        await pageRef.update({
+          'analytics.totalClicks': firebase.firestore.FieldValue.increment(1),
+          [`analytics.linkClicks.${linkId}`]: firebase.firestore.FieldValue.increment(1)
+        });
+      } catch (err) {
+        console.error('Error recording click:', err);
+      }
+    }
+    // ================================================================
+    // PUBLIC PROFILE — Rendering
+    // ================================================================
+    /**
+     * Load and render a public profile by username.
+     * Fetches user data and their first page from Firestore.
+     * @param {string} username - The username to look up
+     */
+    async function loadPublicProfile(username) {
+      showView('loading');
+      try {
+        // Look up username mapping
+        const usernameDoc = await db.collection('usernames').doc(username.toLowerCase()).get();
+        if (!usernameDoc.exists) {
+          showView('404');
+          return;
+        }
+        const uid = usernameDoc.data().uid;
+        // Load user profile
+        const userDoc = await db.collection('users').doc(uid).get();
+        if (!userDoc.exists) {
+          showView('404');
+          return;
+        }
+        const userData = userDoc.data();
+        // Find the page matching the username slug, or use the first page
+        const pagesSnap = await db.collection('users').doc(uid).collection('pages').get();
+        let pageData = null;
+        let pageId = null;
+        pagesSnap.forEach(doc => {
+          const d = doc.data();
+          if (d.slug === username.toLowerCase() || (!pageData)) {
+            pageData = d;
+            pageId = doc.id;
+          }
+        });
+        if (!pageData) {
+          showView('404');
+          return;
+        }
+        // Record the visit
+        recordVisit(uid, pageId);
+        // Render the profile
+        renderPublicProfile(userData, pageData, uid, pageId);
+        showView('profile');
+      } catch (err) {
+        console.error('Error loading public profile:', err);
+        showView('404');
+      }
+    }
+    /**
+     * Render the public profile view with user and page data.
+     * @param {Object} userData - User profile document data
+     * @param {Object} pageData - Page document data
+     * @param {string} uid - User ID (for analytics tracking)
+     * @param {string} pageId - Page ID (for analytics tracking)
+     */
+    function renderPublicProfile(userData, pageData, uid, pageId) {
+      const container = document.getElementById('publicProfile');
+      const theme = userData.theme || 'dark';
+      const themeClass = theme !== 'dark' ? `theme-${theme}` : '';
+      container.className = `public-profile ${themeClass}`;
+      const folders = pageData.folders || [];
+      const fl = pageData.featuredLink;
+      let foldersHtml = folders.map((f, fi) => {
+        const links = f.links || [];
+        return `
+          <div class="public-folder">
+            <div class="public-folder-header" onclick="togglePublicFolder(this)">
+              <i class="fas fa-chevron-right public-folder-chevron"></i>
+              <div class="public-folder-thumb">
+                ${f.thumbnail ? `<img src="${escapeHtml(f.thumbnail)}" alt="" onerror="this.style.display='none'" />` : '<i class="fas fa-folder"></i>'}
+              </div>
+              <span class="public-folder-name">${escapeHtml(f.title)}</span>
+              <span class="public-folder-count">${links.length}</span>
+            </div>
+            <div class="public-folder-links">
+              ${links.map(l => `
+                <a class="public-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener"
+                   onclick="recordClick('${uid}', '${pageId}', '${l.id || ''}')">
+                  <div class="public-link-thumb">
+                    ${l.thumbnail ? `<img src="${escapeHtml(l.thumbnail)}" alt="" onerror="this.style.display='none'" />` : '<i class="fas fa-link"></i>'}
+                  </div>
+                  <span class="public-link-title">${escapeHtml(l.title)}</span>
+                  <i class="fas fa-arrow-right public-link-arrow"></i>
+                </a>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+      container.innerHTML = `
+        <div class="profile-header">
+          <div class="profile-avatar">
+            ${userData.avatarUrl ? `<img src="${escapeHtml(userData.avatarUrl)}" alt="${escapeHtml(userData.displayName)}" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-user\\'></i>'" />` : '<i class="fas fa-user"></i>'}
+          </div>
+          <h1 class="profile-name">${escapeHtml(userData.displayName || userData.username)}</h1>
+          <p class="profile-bio">${escapeHtml(userData.bio || '')}</p>
+        </div>
+        ${fl && fl.url ? `
+          <div class="featured-link">
+            <p class="featured-badge">Featured</p>
+            <a class="featured-link-card" href="${escapeHtml(fl.url)}" target="_blank" rel="noopener"
+               onclick="recordClick('${uid}', '${pageId}', 'featured')">
+              <div class="featured-link-thumb">
+                ${fl.thumbnail ? `<img src="${escapeHtml(fl.thumbnail)}" alt="" onerror="this.style.display='none'" />` : '<i class="fas fa-star" style="font-size:18px;color:var(--muted)"></i>'}
+              </div>
+              <div class="featured-link-info">
+                <h4>${escapeHtml(fl.title || 'Featured')}</h4>
+                <p>Recommended by ${escapeHtml(userData.displayName || userData.username)}</p>
+              </div>
+            </a>
+          </div>
+        ` : ''}
+        <div class="public-folders">
+          ${foldersHtml || '<p style="text-align:center;color:var(--muted);font-size:14px;padding:32px 0">No links yet.</p>'}
+        </div>
+        <div class="public-footer">
+          <a href="#/" onclick="navigate('/')">
+            <span style="font-weight:700;letter-spacing:-0.03em">MTCQ</span>
+          </a>
+        </div>
+      `;
+    }
+    /**
+     * Toggle a folder open/closed on the public profile.
+     * @param {HTMLElement} headerEl - The clicked folder header
+     */
+    function togglePublicFolder(headerEl) {
+      const chevron = headerEl.querySelector('.public-folder-chevron');
+      const linksContainer = headerEl.nextElementSibling;
+      chevron.classList.toggle('open');
+      linksContainer.classList.toggle('open');
+    }
+    /**
+     * Render a demo profile for the "View Demo" button on the landing page.
+     */
+    function renderDemoProfile() {
+      const container = document.getElementById('publicProfile');
+      container.className = 'public-profile';
+      container.innerHTML = `
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <i class="fas fa-gamepad" style="font-size:28px"></i>
+          </div>
+          <h1 class="profile-name">Max Torres</h1>
+          <p class="profile-bio">Tech reviewer & gaming affiliate. Links to my favorite gear below.</p>
+        </div>
+        <div class="featured-link">
+          <p class="featured-badge">Featured</p>
+          <div class="featured-link-card" onclick="toast('Demo link — no URL', 'success')">
+            <div class="featured-link-thumb">
+              <i class="fas fa-fire" style="font-size:18px;color:var(--muted)"></i>
+            </div>
+            <div class="featured-link-info">
+              <h4>Current Favorite Mouse</h4>
+              <p>Recommended by Max Torres</p>
+            </div>
+          </div>
+        </div>
+        <div class="public-folders">
+          <div class="public-folder">
+            <div class="public-folder-header" onclick="togglePublicFolder(this)">
+              <i class="fas fa-chevron-right public-folder-chevron"></i>
+              <div class="public-folder-thumb">
+                <i class="fas fa-desktop"></i>
+              </div>
+              <span class="public-folder-name">Gaming Setup</span>
+              <span class="public-folder-count">3</span>
+            </div>
+            <div class="public-folder-links">
+              <div class="public-link" onclick="toast('Demo link', 'success')">
+                <div class="public-link-thumb"><i class="fas fa-mouse"></i></div>
+                <span class="public-link-title">Logitech G Pro X Superlight</span>
+                <i class="fas fa-arrow-right public-link-arrow"></i>
+              </div>
+              <div class="public-link" onclick="toast('Demo link', 'success')">
+                <div class="public-link-thumb"><i class="fas fa-keyboard"></i></div>
+                <span class="public-link-title">Keychron Q1 Pro</span>
+                <i class="fas fa-arrow-right public-link-arrow"></i>
+              </div>
+              <div class="public-link" onclick="toast('Demo link', 'success')">
+                <div class="public-link-thumb"><i class="fas fa-tv"></i></div>
+                <span class="public-link-title">LG 27GP850-B Monitor</span>
+                <i class="fas fa-arrow-right public-link-arrow"></i>
+              </div>
+            </div>
+          </div>
+          <div class="public-folder">
+            <div class="public-folder-header" onclick="togglePublicFolder(this)">
+              <i class="fas fa-chevron-right public-folder-chevron"></i>
+              <div class="public-folder-thumb">
+                <i class="fas fa-microphone"></i>
+              </div>
+              <span class="public-folder-name">Streaming Gear</span>
+              <span class="public-folder-count">2</span>
+            </div>
+            <div class="public-folder-links">
+              <div class="public-link" onclick="toast('Demo link', 'success')">
+                <div class="public-link-thumb"><i class="fas fa-camera"></i></div>
+                <span class="public-link-title">Sony ZV-1 Camera</span>
+                <i class="fas fa-arrow-right public-link-arrow"></i>
+              </div>
+              <div class="public-link" onclick="toast('Demo link', 'success')">
+                <div class="public-link-thumb"><i class="fas fa-headphones"></i></div>
+                <span class="public-link-title">HyperX Cloud III Wireless</span>
+                <i class="fas fa-arrow-right public-link-arrow"></i>
+              </div>
+            </div>
+          </div>
+          <div class="public-folder">
+            <div class="public-folder-header" onclick="togglePublicFolder(this)">
+              <i class="fas fa-chevron-right public-folder-chevron"></i>
+              <div class="public-folder-thumb">
+                <i class="fas fa-book"></i>
+              </div>
+              <span class="public-folder-name">Favorite Books</span>
+              <span class="public-folder-count">2</span>
+            </div>
+            <div class="public-folder-links">
+              <div class="public-link" onclick="toast('Demo link', 'success')">
+                <div class="public-link-thumb"><i class="fas fa-book-open"></i></div>
+                <span class="public-link-title">Atomic Habits — James Clear</span>
+                <i class="fas fa-arrow-right public-link-arrow"></i>
+              </div>
+              <div class="public-link" onclick="toast('Demo link', 'success')">
+                <div class="public-link-thumb"><i class="fas fa-book-open"></i></div>
+                <span class="public-link-title">Show Your Work — Austin Kleon</span>
+                <i class="fas fa-arrow-right public-link-arrow"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="public-footer">
+          <a href="#/" onclick="navigate('/')">
+            <span style="font-weight:700;letter-spacing:-0.03em">MTCQ</span>
+          </a>
+        </div>
+      `;
+    }
+    // ================================================================
+    // UI — Modal System
+    // ================================================================
+    let closeModalFn = () => {};
+    /**
+     * Open a modal dialog with custom content and action.
+     * @param {string} title - Modal title
+     * @param {string} contentHtml - HTML content for the modal body
+     * @param {Function} onConfirm - Callback when "Confirm" is clicked
+     */
+    function openModal(title, contentHtml, onConfirm) {
+      const overlay = document.getElementById('modalOverlay');
+      const modal = document.getElementById('modalContent');
+      modal.innerHTML = `
+        <h3>${title}</h3>
+        ${contentHtml}
+        <div class="modal-actions">
+          <button class="btn btn-secondary btn-sm" onclick="closeModalFn()">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="modalConfirmBtn">Confirm</button>
+        </div>
+      `;
+      document.getElementById('modalConfirmBtn').addEventListener('click', onConfirm);
+      closeModalFn = () => {
+        overlay.classList.remove('active');
+      };
+      overlay.classList.add('active');
+      // Focus first input
+      setTimeout(() => {
+        const firstInput = modal.querySelector('input');
+        if (firstInput) firstInput.focus();
+      }, 100);
+    }
+    /**
+     * Close modal when clicking outside of it.
+     * @param {Event} e - Click event
+     */
+    function closeModal(e) {
+      if (e.target === e.currentTarget) {
+        closeModalFn();
+      }
+    }
+    // ================================================================
+    // UI — Toast Notifications
+    // ================================================================
+    /**
+     * Show a toast notification.
+     * @param {string} message - The message to display
+     * @param {string} type - 'success' or 'error'
+     */
+    function toast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+      const toastEl = document.createElement('div');
+      toastEl.className = `toast ${type}`;
+      toastEl.innerHTML = `<i class="fas ${icon}"></i> ${escapeHtml(message)}`;
+      container.appendChild(toastEl);
+      // Auto-remove after animation completes
+      setTimeout(() => {
+        if (toastEl.parentElement) toastEl.remove();
+      }, 3000);
+    }
+    // ================================================================
+    // UI — Sidebar (Mobile)
+    // ================================================================
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebarOverlay').classList.toggle('active');
+    }
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+    }
+    // ================================================================
+    // SETTINGS — Account Management
+    // ================================================================
+    /**
+     * Change the current user's password.
+     */
+    async function changePassword() {
+      const newPassword = document.getElementById('newPassword').value;
+      if (!newPassword || newPassword.length < 6) {
+        toast('Password must be at least 6 characters.', 'error');
+        return;
+      }
+      try {
+        await state.user.updatePassword(newPassword);
+        document.getElementById('newPassword').value = '';
+        toast('Password updated!', 'success');
+      } catch (err) {
+        if (err.code === 'auth/requires-recent-login') {
+          toast('Please log out and log back in, then try again.', 'error');
+        } else {
+          toast('Failed to update password.', 'error');
+        }
+      }
+    }
+    /**
+     * Confirm and delete the user's account.
+     * Removes all Firestore data and the Firebase auth account.
+     */
+    async function confirmDeleteAccount() {
+      if (!confirm('Are you sure? This will permanently delete your account and all pages.')) return;
+      if (!confirm('This cannot be undone. Type confirm to proceed.')) return;
+      try {
+        const uid = state.user.uid;
+        const username = state.userData.username;
+        // Delete pages
+        const pagesSnap = await db.collection('users').doc(uid).collection('pages').get();
+        const batch = db.batch();
+        pagesSnap.forEach(doc => batch.delete(doc.ref));
+        // Delete username reservation
+        if (username) {
+          batch.delete(db.collection('usernames').doc(username));
+        }
+        // Delete user document
+        batch.delete(db.collection('users').doc(uid));
+        await batch.commit();
+        // Delete auth account
+        await state.user.delete();
+        toast('Account deleted.', 'success');
+        navigate('/');
+      } catch (err) {
+        console.error('Error deleting account:', err);
+        if (err.code === 'auth/requires-recent-login') {
+          toast('Please log out and log back in, then try again.', 'error');
+        } else {
+          toast('Failed to delete account.', 'error');
+        }
+      }
+    }
+    // ================================================================
+    // UTILITIES
+    // ================================================================
+    /**
+     * Escape HTML entities to prevent XSS.
+     * @param {string} str - String to escape
+     * @returns {string} Escaped string
+     */
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+    /**
+     * Generate a simple unique ID for links.
+     * @returns {string} A random 8-character ID
+     */
+    function generateId() {
+      return Math.random().toString(36).substring(2, 10);
+    }
+    // ================================================================
+    // INIT — Initial Route Resolution
+    // ================================================================
+    // Run router on page load (deferred to let Firebase auth init)
+    // The auth.onAuthStateChanged callback will also trigger router()
+    if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
+      showView('loading');
+    } else {
+      router();
+    }
+  </script>
+</body>
+</html>
